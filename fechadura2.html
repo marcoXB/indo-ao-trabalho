@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Página Inicial</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://use.typekit.net/kuw6dmf.css">
+</head>
+<body class="fundo-dica">
+
+    <h1 class="balao">Bah ta meio zoado o final ali <br> Mas eu lembro que tinha uma lógica pra isso!
+
+ <div class="cadeado">
+        
+        <input id="codigo" type="text" placeholder="">
+
+        <button class="button" onclick="verificarCodigo()">Desbloquear</button>
+
+        <div id="erro" class="erro">Código incorreto!</div>
+    </div>
+
+    <script>
+        function verificarCodigo() {
+            const entrada = document.getElementById("codigo").value.trim();
+            const correto = "11 13 17 19";
+
+            if (entrada === correto) {
+                window.location.href = "zelador.html";
+            } else {
+                document.getElementById("erro").style.display = "block";
+            }
+        }
+    </script>
+
+    </h1>
+
+
+</body>
+</html>
