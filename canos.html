@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -140,3 +141,147 @@
   </script>
 </body>
 </html>
+=======
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <title>Cadeado de Grid 3x3</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://use.typekit.net/kuw6dmf.css">
+</head>
+<body class="fundo-canos">
+
+  <div class="container">
+   <h1 class="balao">Cara ja tinha ate botado cloro na piscina pra tentar limpar essa agua suja aqui, mas quando fui encher o cano estourou.
+   </h1>
+
+
+    <div class="grid" id="grid" aria-label="Grid do cadeado digital">
+      <!-- As 9 células; data-index usado para identificar -->
+      <button class="cell" data-index="0" aria-label="célula 1">
+        <span class="badge">0°</span>
+        <img src="imagens/cano-13.png" alt="imagem 1">
+      </button>
+
+      <button class="cell" data-index="1" aria-label="célula 2">
+        <span class="badge">0°</span>
+        <img src="imagens/cano-14.png" alt="imagem 2">
+      </button>
+
+      <button class="cell" data-index="2" aria-label="célula 3">
+        <span class="badge">0°</span>
+        <img src="imagens/cano-13.png" alt="imagem 3">
+      </button>
+
+      <button class="cell" data-index="3" aria-label="célula 4">
+        <span class="badge">0°</span>
+        <img src="imagens/cano-14.png" alt="imagem 4">
+      </button>
+
+      <button class="cell" data-index="4" aria-label="célula 5">
+        <span class="badge">0°</span>
+        <img src="imagens/cano-13.png" alt="imagem 5">
+      </button>
+
+      <button class="cell" data-index="5" aria-label="célula 6">
+        <span class="badge">0°</span>
+        <img src="imagens/cano-14.png" alt="imagem 6">
+      </button>
+
+      <button class="cell" data-index="6" aria-label="célula 7">
+        <span class="badge">0°</span>
+        <img src="imagens/cano-13.png" alt="imagem 7">
+      </button>
+
+      <button class="cell" data-index="7" aria-label="célula 8">
+        <span class="badge">0°</span>
+        <img src="imagens/cano-14.png" alt="imagem 8">
+      </button>
+
+      <button class="cell" data-index="8" aria-label="célula 9">
+        <span class="badge">0°</span>
+        <img src="imagens/cano-13.png" alt="imagem 9">
+      </button>
+    </div>
+
+    <div class="message" id="message"></div>
+  </div>
+
+  <script>
+    // ======= Configuração =======
+    // Target: rotações desejadas para cada célula (em graus). Use 0,90,180,270.
+    // indices: 0 .. 8 correspondem às células no HTML na ordem lida.
+    const targetRotations = [
+      90, 90, 180,
+      0,  0, 0,
+      270, 0, 0
+    ];
+
+    // URL para redirecionar quando o padrão for alcançado:
+    const successRedirect = "Ajcanos.html";
+
+    // ======= Estado =======
+    // rotacoes armazenará o ângulo atual (0,90,180,270) de cada célula
+    const rotations = Array(9).fill(0);
+
+    // Seletores
+    const cells = Array.from(document.querySelectorAll('.cell'));
+    const messageEl = document.getElementById('message');
+
+    // Aplica transform a uma célula com base no ângulo
+    function applyRotation(el, degrees) {
+      // rodar a célula inteira (para parecer que a imagem roda junto)
+      el.style.transform = `rotate(${degrees}deg)`;
+      // não aplicar rotação adicional à imagem interna — ela já gira com a caixa
+      const img = el.querySelector('img');
+      if (img) {
+        img.style.transform = '';
+      }
+      // badge para debug (se quiser visualizar)
+      const badge = el.querySelector('.badge');
+      if (badge) badge.textContent = `${degrees}°`;
+    }
+
+    // Verifica combinação atual vs target
+    function checkCombination() {
+      for (let i = 0; i < 9; i++) {
+        // normalizar para 0..270
+        const cur = ((rotations[i] % 360) + 360) % 360;
+        const want = ((targetRotations[i] % 360) + 360) % 360;
+        if (cur !== want) return false;
+      }
+      return true;
+    }
+
+    // Evento de clique
+    cells.forEach((cell) => {
+      cell.addEventListener('click', () => {
+        const idx = Number(cell.dataset.index);
+
+        // incrementa 90°
+        rotations[idx] = (rotations[idx] + 90) % 360;
+
+        // anima e aplica
+        applyRotation(cell, rotations[idx]);
+
+        // checa combinação
+        if (checkCombination()) {
+          messageEl.textContent = "Combinação correta! Redirecionando...";
+          // curta espera para mostrar mensagem e depois redireciona
+          setTimeout(() => {
+            window.location.href = successRedirect;
+          }, 700);
+        } else {
+          messageEl.textContent = ""; // limpa mensagem de sucesso
+        }
+      });
+    });
+
+    // Inicializa (caso queira começar com rotações diferentes, altere o array `rotations`)
+    cells.forEach((cell, i) => applyRotation(cell, rotations[i]));
+  </script>
+</body>
+</html>
+>>>>>>> bd390cdfa151a138be0da223053d557b9111c260

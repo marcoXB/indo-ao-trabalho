@@ -1,3 +1,239 @@
+<<<<<<< HEAD
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" href="https://use.typekit.net/kuw6dmf.css">
+  <title>Escolha os 3 botões certos</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    :root{
+      --bg:#f4f7fb;
+      --card:#ffffff;
+      --accent:#0b6efd;
+      --success:#0b8a4f;
+      --danger:#d43f3f;
+      --muted:#64748b;
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:relative;
+      font-family:Inter, system-ui, Arial, sans-serif;
+      background-image: url(imagens/final.png);
+      background-size: cover;
+      color:#102a43;
+      padding:24px;
+    }
+
+    .card{
+       position: absolute;
+
+  top: 45%;    /* ajuste para a posição vertical */
+  left: 65%;   /* ajuste para a posição horizontal */
+
+  transform: translate(-50%, -50%); /* mantém centralizado dentro DA TELA desenhada */
+  
+  width: 90%;
+  max-width: 720px;
+
+  background: var(--card);
+  padding: 28px;
+  border-radius: 12px;
+  box-shadow:0 10px 30px rgba(16,42,67,0.08);
+    }
+
+    h1{ margin:0 0 10px 0; font-size:20px; }
+    p { margin:0 0 18px 0; color:var(--muted); }
+h1.balao {
+  font-family: "petala-pro", sans-serif;
+font-weight: 400;
+font-style: normal;
+    position: absolute;    /* fixa sempre no mesmo lugar */
+    top: 60px;
+    left: 60px;
+
+    height: 450px;
+    width: 450px;
+    margin: 0;
+
+    font-size: 18px;
+    padding: 40px 30px;
+    background-image: url(imagens/nuvem.webp);
+    background-size: cover;
+    background-repeat: no-repeat;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 20px; /* espaço entre texto e botão */
+
+    text-align: left;
+    color: #000;
+}
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:12px;
+    }
+
+    .btn {
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:16px 12px;
+      border-radius:10px;
+      background:linear-gradient(180deg,#fff,#f7fbff);
+      border:2px solid #e6eef8;
+      cursor:pointer;
+      user-select:none;
+      font-weight:600;
+      font-size:16px;
+      transition: transform .14s ease, box-shadow .14s ease, border-color .14s ease;
+      min-height:72px;
+    }
+
+    .btn:hover { transform: translateY(-3px); box-shadow: 0 8px 22px rgba(12,40,80,0.06); }
+    .btn:active { transform: translateY(-1px); }
+
+    /* estados visuais */
+    .btn.pressed { border-color: rgba(11,110,253,0.18); box-shadow: 0 6px 20px rgba(11,110,253,0.06); }
+    .btn.correct { outline: 3px solid rgba(11,138,79,0.12); }
+    .btn.wrong { outline: 3px solid rgba(212,63,63,0.12); }
+
+    .footer {
+      margin-top:18px;
+      display:flex;
+      gap:12px;
+      align-items:center;
+      justify-content:space-between;
+    }
+
+    .hint { color:var(--muted); font-size:14px; }
+
+    .counter {
+      background:#f1f5f9;
+      padding:8px 12px;
+      border-radius:999px;
+      color:#123;
+      font-weight:700;
+      font-size:14px;
+      border:1px solid #e6eef8;
+    }
+
+    @media (max-width:520px){
+      .grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body class="fundo-final">
+  <h1 class="balao"> Teve uma contaminação na agua.<br> E o estagiario botou pra retirar tudo da agua! Ai não.</h1>
+  <main class="card" role="main">
+    <h1>Indique quais elementos não retirar da agua</h1>
+    
+
+    <div class="grid" id="grid" aria-label="Seis botões">
+      <!-- marque data-correct="true" nos 3 botões corretos -->
+      <button class="btn" data-index="0" data-correct="true" aria-pressed="false">Cloro</button>
+      <button class="btn" data-index="1" data-correct="false" aria-pressed="false">Ferro</button>
+      <button class="btn" data-index="2" data-correct="true" aria-pressed="false">Flúor</button>
+      <button class="btn" data-index="3" data-correct="false" aria-pressed="false">Sabão</button>
+      <button class="btn" data-index="4" data-correct="true" aria-pressed="false">Sulfato de Alumínio</button>
+      <button class="btn" data-index="5" data-correct="false" aria-pressed="false">Óleo</button>
+    </div>
+
+    <div class="footer">
+      <div class="hint"></div>
+      <div class="counter" id="counter">0 / 3 certos</div>
+    </div>
+  </main>
+
+  <script>
+    // === Configuração (alterar se quiser) ===
+    const successPage = "sucesso.html"; // página destino quando os 3 corretos forem pressionados
+    const errorPage = "gameover.html";      // página destino caso pressione um errado
+
+    // === Estado ===
+    // set para armazenar índices dos botões corretos já pressionados (para evitar contagem dupla)
+    const correctPressed = new Set();
+
+    // Busca botões
+    const buttons = Array.from(document.querySelectorAll('.btn'));
+    const counterEl = document.getElementById('counter');
+
+    // Atualiza contador visual
+    function updateCounter() {
+      counterEl.textContent = `${correctPressed.size} / 3 certos`;
+    }
+
+    // Desativa todos os botões (chamado após sucesso/erro)
+    function disableAll() {
+      buttons.forEach(b => {
+        b.disabled = true;
+        b.style.cursor = "default";
+      });
+    }
+
+    // Lida com clique em botão
+    function handleClick(e) {
+      const btn = e.currentTarget;
+
+      // se já estiver desabilitado, ignora
+      if (btn.disabled) return;
+
+      const index = btn.dataset.index;
+      const isCorrect = btn.dataset.correct === "true";
+
+      // evita contagem dupla: se já foi pressionado antes (marcado pressed), não conta de novo
+      const alreadyPressed = btn.classList.contains('pressed');
+
+      if (isCorrect) {
+        // marca visual e conte se for primeira vez
+        btn.classList.add('pressed', 'correct');
+        btn.setAttribute('aria-pressed','true');
+
+        if (!alreadyPressed) {
+          correctPressed.add(index);
+          updateCounter();
+        }
+
+        // quando atingir 3 certos -> sucesso
+        if (correctPressed.size >= 3) {
+          // feedback visual breve, depois redireciona
+          disableAll();
+          // animação final visual (pequena pausa)
+          setTimeout(() => {
+            window.location.href = successPage;
+          }, 500);
+        }
+      } else {
+        // botão errado: sinaliza visual e redireciona imediatamente
+        btn.classList.add('pressed','wrong');
+        btn.setAttribute('aria-pressed','true');
+        disableAll();
+        // pequena pausa para usuário ver o feedback
+        setTimeout(() => {
+          window.location.href = errorPage;
+        }, 300);
+      }
+    }
+
+    // adiciona evento a cada botão
+    buttons.forEach(btn => {
+      btn.addEventListener('click', handleClick);
+    });
+
+    // inicializa contador
+    updateCounter();
+  </script>
+</body>
+</html>
+=======
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -232,3 +468,4 @@ font-style: normal;
   </script>
 </body>
 </html>
+>>>>>>> bd390cdfa151a138be0da223053d557b9111c260

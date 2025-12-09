@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -41,3 +42,48 @@
 
 </body>
 </html>
+=======
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadeado Digital</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://use.typekit.net/kuw6dmf.css">
+
+</head>
+<body><body class="fundo-velho"></body>
+
+    <h1 class="balao">
+        opa ta com pressa patrão? <br> Hahaha só te deixo passar se responder minha charada!
+        
+      
+      
+        O que é: tem cidade, mas não tem gente; tem rio, mas não tem água; tem ruas, mas não tem carros? <br>
+        
+      
+    <div class="cadeado">
+        
+        <input id="codigo" type="text" placeholder="">
+
+        <button class="button" onclick="verificarCodigo()">Desbloquear</button>
+
+        <div id="erro" class="erro">Código incorreto!</div>
+    </div>
+    </h1>
+    <script>
+        function verificarCodigo() {
+            const entrada = document.getElementById("codigo").value.trim();
+            const correto = "um mapa";
+
+            if (entrada === correto) {
+                window.location.href = "velhocerto.html";
+            } else {
+                document.getElementById("erro").style.display = "block";
+            }
+        }
+    </script>
+
+</body>
+</html>
+>>>>>>> bd390cdfa151a138be0da223053d557b9111c260
